@@ -30,7 +30,7 @@ class LocalLLM:
                 messages.append({"role": "system", "content": line[len("<|system|>"):].strip()})
         return messages
 
-    def generate_response(self, messages, max_new_tokens=32):
+    def generate_response(self, messages, max_new_tokens=4096):
         inputs = self.tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt")
 
         outputs = self.model.generate(inputs, max_new_tokens=max_new_tokens)

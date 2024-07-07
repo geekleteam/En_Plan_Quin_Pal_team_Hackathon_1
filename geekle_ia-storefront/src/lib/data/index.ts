@@ -804,3 +804,27 @@ export const getChatDetails = cache(async function (customer: any, chatId: Strin
       return {}
     })
 })
+
+export const getSolutions = cache(async function () {
+
+  return customClient.customResources
+    .listSolutions()
+    .then(( {solutions} ) => {
+      return solutions
+    })
+    .catch((err) => {
+      return {}
+    })
+})
+
+export const createFavouriteSolution = cache(async function (customer:any, solutionId:String) {
+
+  return customClient.customResources
+    .createFavouriteSolution(customer, solutionId)
+    .then(() => {
+      return "OK"
+    })
+    .catch((err) => {
+      return {}
+    })
+})

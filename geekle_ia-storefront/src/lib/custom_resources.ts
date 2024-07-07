@@ -7,6 +7,8 @@ class CustomResources extends BaseResource {
     super(args)
   }
 
+  // GETS
+
   listFavouriteSolutions(customer: any) {
     return this.client.request("GET", `/store/customers/${customer.id}/favourite_solutions`);
   }
@@ -23,6 +25,15 @@ class CustomResources extends BaseResource {
     return this.client.request("GET", `/store/customers/${customer.id}/chats/${chatId}`);
   }
 
+  listSolutions() {
+    return this.client.request("GET", `/store/solutions`);
+  }
+
+  // POSTS
+
+  createFavouriteSolution(customer:any, solutionId:String){
+    return this.client.request("POST", `/store/customers/${customer.id}/favourite_solutions`, {solution_id: solutionId});
+  }
 }
 
 export default CustomResources;

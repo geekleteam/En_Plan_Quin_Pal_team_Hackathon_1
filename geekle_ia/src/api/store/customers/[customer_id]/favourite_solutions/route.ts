@@ -1,7 +1,7 @@
 import {MedusaRequest, MedusaResponse} from "@medusajs/medusa";
 import {EntityManager} from "typeorm";
 import { FavouriteSolution } from "../../../../../models/favourite_solution"
-import {Message} from "@models/message";
+import {Message} from "../../../../../models/message";
 
 export const GET = async (
     req: MedusaRequest,

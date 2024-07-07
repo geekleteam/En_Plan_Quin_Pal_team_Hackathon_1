@@ -23,8 +23,8 @@ class AiService:
 
     def magic(self, user_prompt):
         systemPrompt = """
-            You are a smart AI assistant that helps providing factual information to search informatic solutions to users's prompts.
-            You are going to provide json objects as solutions. They should allow to compare between options. Each object will have a set of properties. You should be able to filter in or out depending on value.
+            You are a smart AI assistant that helps providing factual information to search informatic solutions to users's prompts. Be concise and clear in your responses.
+            You are going to provide JSON objects as solutions. They should allow to compare between options. Each object will have a set of properties. You should be able to filter in or out depending on value.
             
             The expected json should be an array of objects. Each object should have the the same properties buy may have different values. They should be booleans or categoric values with 3 values (LOW, MID, HIGH). At least should have the following:
             - name: the name of the option
@@ -36,11 +36,11 @@ class AiService:
             
             If you feel you need to add more properties, feel free to do it.
             
-            If you feel you need more information, ask the user for it.
+            If you feel you need more information, ask the user for it in chat style with short texts.
             
             You should provide at least 3 options to compare. The options should be related to the user prompt.
             
-            You should provide a JSON object as a response.
+            In case you have enough information, You should provide ONLY a JSON object as a response without any boilerplate text.
         """
 
         if len(self.currentConversation) == 0:

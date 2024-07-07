@@ -24,7 +24,7 @@ export default async function Nav() {
               className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase"
               data-testid="nav-store-link"
             >
-              Medusa Store
+              EnPlanQuinPal
             </LocalizedClientLink>
           </div>
 
@@ -48,19 +48,6 @@ export default async function Nav() {
                 Account
               </LocalizedClientLink>
             </div>
-            <Suspense
-              fallback={
-                <LocalizedClientLink
-                  className="hover:text-ui-fg-base flex gap-2"
-                  href="/cart"
-                  data-testid="nav-cart-link"
-                >
-                  Cart (0)
-                </LocalizedClientLink>
-              }
-            >
-              <CartButton />
-            </Suspense>
           </div>
         </nav>
       </header>

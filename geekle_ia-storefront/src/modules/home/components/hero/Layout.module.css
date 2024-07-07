@@ -1,0 +1,15 @@
+.layout {
+    display: grid;
+    grid-template-columns: 400px auto;
+    gap: 10px;
+    width: 90vw;
+   padding: 30px;
+}
+
+.leftPanel {
+}
+
+.rightPanel {
+  width: 100%;
+  background-color: #ffffff;
+}

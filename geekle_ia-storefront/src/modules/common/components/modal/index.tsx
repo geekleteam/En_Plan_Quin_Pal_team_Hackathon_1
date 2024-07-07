@@ -106,13 +106,9 @@ const Body: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <div className="flex justify-center">{children}</div>
 }
 
-const Footer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  return <div className="flex items-center justify-end gap-x-4">{children}</div>
-}
 
 Modal.Title = Title
 Modal.Description = Description
 Modal.Body = Body
-Modal.Footer = Footer
 
 export default Modal

@@ -130,20 +130,6 @@ const AddAddress = ({ region }: { region: Region }) => {
               </div>
             )}
           </Modal.Body>
-          <Modal.Footer>
-            <div className="flex gap-3 mt-6">
-              <Button
-                type="reset"
-                variant="secondary"
-                onClick={close}
-                className="h-10"
-                data-testid="cancel-button"
-              >
-                Cancel
-              </Button>
-              <SubmitButton data-testid="save-button">Save</SubmitButton>
-            </div>
-          </Modal.Footer>
         </form>
       </Modal>
     </>

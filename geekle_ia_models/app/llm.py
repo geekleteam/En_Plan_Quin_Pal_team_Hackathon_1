@@ -2,18 +2,31 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
+
 class LocalLLM:
     def __init__(self, model_path, tokenizer_path):
         # Load the tokenizer and model from the local paths
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
         self.model = AutoModelForCausalLM.from_pretrained(model_path)
 
+    def parseText(self, text):
+        messages = []  # List of dictionaries, each containing a "role" and "content" key
+        for line in text.split("<|end|>"):
+            if line.startswith("<|assistant|>"):
+                messages.append({"role": "assistant", "content": line[len("<|assistant|>"):].strip()})
+            elif line.startswith("<|user|>"):
+                messages.append({"role": "user", "content": line[len("<|user|>"):].strip()})
+            elif line.startswith("<|system|>"):
+                messages.append({"role": "system", "content": line[len("<|system|>"):].strip()})
+        return messages
+
     def generate_response(self, messages, max_new_tokens=32):
         inputs = self.tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt")
 
         outputs = self.model.generate(inputs, max_new_tokens=max_new_tokens)
         text = self.tokenizer.batch_decode(outputs)[0]
-        return text
+        parsedText = self.parseText(text)
+        return parsedText
 
 # Example usage
 if __name__ == "__main__":

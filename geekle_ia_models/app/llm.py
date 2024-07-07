@@ -4,10 +4,20 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
 class LocalLLM:
+    _instance = None
+
     def __init__(self, model_path, tokenizer_path):
         # Load the tokenizer and model from the local paths
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
         self.model = AutoModelForCausalLM.from_pretrained(model_path)
+
+    @staticmethod
+    def get_instance():
+        if LocalLLM._instance is None:
+            model_path = "microsoft/Phi-3-mini-4k-instruct"
+            tokenizer_path = "microsoft/Phi-3-mini-4k-instruct"
+            LocalLLM._instance = LocalLLM(model_path, tokenizer_path)
+        return LocalLLM._instance
 
     def parseText(self, text):
         messages = []  # List of dictionaries, each containing a "role" and "content" key

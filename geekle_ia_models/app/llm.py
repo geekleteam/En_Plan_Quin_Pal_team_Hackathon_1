@@ -32,8 +32,14 @@ class LocalLLM:
 
     def generate_response(self, messages, max_new_tokens=4096):
         inputs = self.tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt")
+        print("cuda_avaiability: ", torch.cuda.is_available())
+        print("torch: ", torch.__version__)
+        # Use GPU if available
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        model = self.model.to(device)
+        inputs_to_device = inputs.to(device)
 
-        outputs = self.model.generate(inputs, max_new_tokens=max_new_tokens)
+        outputs = model.generate(inputs_to_device, max_new_tokens=max_new_tokens)
         text = self.tokenizer.batch_decode(outputs)[0]
         parsedText = self.parseText(text)
         return parsedText

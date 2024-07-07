@@ -1,4 +1,5 @@
 import {
+  Customer,
   ProductCategory,
   ProductCollection,
   Region,
@@ -756,16 +757,50 @@ export const getProductsByCategoryHandle = cache(async function ({
   }
 })
 
-export const getFavouriteSolutions = cache(async function (customer) {
+export const getFavouriteSolutions = cache(async function (customer:any) {
 
   return customClient.customResources
     .listFavouriteSolutions(customer)
-    .then(( {favourite_solutions} ) => {
-      return favourite_solutions
+    .then(( {solutions} ) => {
+      return solutions
     })
     .catch((err) => {
-      console.log("THIS IS TEH ERROR")
-      console.log(err)
       return []
+    })
+})
+
+export const getSolutionDetails = cache(async function (solutionId:String) {
+
+  return customClient.customResources
+    .getSolutionDetails(solutionId)
+    .then(( {solution} ) => {
+      return solution
+    })
+    .catch((err) => {
+      return {}
+    })
+})
+
+export const getChats = cache(async function (customer:any) {
+
+  return customClient.customResources
+    .listChats(customer)
+    .then(( {chats} ) => {
+      return chats
+    })
+    .catch((err) => {
+      return []
+    })
+})
+
+export const getChatDetails = cache(async function (customer: any, chatId: String) {
+
+  return customClient.customResources
+    .getChatDetails(customer, chatId)
+    .then(( {chat} ) => {
+      return chat
+    })
+    .catch((err) => {
+      return {}
     })
 })

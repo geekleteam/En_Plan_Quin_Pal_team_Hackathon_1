@@ -1,4 +1,5 @@
 import { BaseResource, Client } from "@medusajs/medusa-js"
+import { Customer } from "@medusajs/medusa"
 
 class CustomResources extends BaseResource {
 
@@ -7,8 +8,19 @@ class CustomResources extends BaseResource {
   }
 
   listFavouriteSolutions(customer: any) {
-    console.log(customer.id);
-    return this.client.request("GET", `/store/favourite_solutions/${customer.id}`, {customerId: customer.id});
+    return this.client.request("GET", `/store/customers/${customer.id}/favourite_solutions`);
+  }
+
+  getSolutionDetails(solutionId: String) {
+    return this.client.request("GET", `/store/solutions/${solutionId}`);
+  }
+
+  listChats(customer: any) {
+    return this.client.request("GET", `/store/customers/${customer.id}/chats`);
+  }
+
+  getChatDetails(customer: Customer, chatId: String) {
+    return this.client.request("GET", `/store/customers/${customer.id}/chats/${chatId}`);
   }
 
 }

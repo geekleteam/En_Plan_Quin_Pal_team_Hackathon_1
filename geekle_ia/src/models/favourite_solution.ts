@@ -1,11 +1,10 @@
-import {BeforeInsert, Column, Entity, JoinColumn, ManyToOne, PrimaryColumn} from "typeorm";
-import { generateEntityId } from "@medusajs/utils";
-import { BaseEntity, Customer } from "@medusajs/medusa";
+import {BeforeInsert, Column, Entity, JoinColumn, ManyToOne} from "typeorm";
+import {generateEntityId} from "@medusajs/utils";
+import {BaseEntity} from "@medusajs/medusa";
 import {Solution} from "./solution";
 
 @Entity()
 export class FavouriteSolution extends BaseEntity {
-
 
     @Column({ type: "varchar" })
     customer_id: string
@@ -13,7 +12,7 @@ export class FavouriteSolution extends BaseEntity {
     @Column({ type: "varchar" })
     solution_id: string
 
-    @ManyToOne(() => Solution, (solution) => solution.favourite_solutions)
+    @ManyToOne(() => Solution, (solution) => solution.favourite_solutions, { eager: true })
     @JoinColumn({ name: "solution_id" })
     solution: Solution
 

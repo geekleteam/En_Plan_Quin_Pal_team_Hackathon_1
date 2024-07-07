@@ -17,7 +17,11 @@
     "jsx": "react-jsx",
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "checkJs": false
+    "checkJs": false,
+    "paths": {
+      "@models/*": ["src/models/*"],
+      "@services/*": ["src/services/*"]
+    }
   },
   "include": ["src/"],
   "exclude": [

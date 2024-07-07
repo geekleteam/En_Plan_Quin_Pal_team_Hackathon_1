@@ -28,13 +28,12 @@ export class Post extends BaseEntity {
 ### 2. Create the Migration
 
 You also need to create a Migration to create the new table in the database. See [How to Create Migrations](https://docs.medusajs.com/advanced/backend/migrations/) in the documentation.
-
 ```
 npx typeorm migration:generate -d datasource.js src/migrations/MigrationName
 
-medusa migrations run
-
 npm run build
+
+medusa migrations run
 ```
 
 ### 3. Create a Repository

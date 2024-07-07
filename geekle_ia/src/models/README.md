@@ -34,7 +34,7 @@ npx typeorm migration:generate -d datasource.js src/migrations/MigrationName
 
 medusa migrations run
 
-npm build
+npm run build
 ```
 
 ### 3. Create a Repository

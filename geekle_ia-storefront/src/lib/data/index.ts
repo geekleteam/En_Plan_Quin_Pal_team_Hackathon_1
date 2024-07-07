@@ -18,7 +18,7 @@ import transformProductPreview from "@lib/util/transform-product-preview"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import { ProductCategoryWithChildren, ProductPreviewType } from "types/global"
 
-import { medusaClient } from "@lib/config"
+import { medusaClient, customClient } from "@lib/config"
 import medusaError from "@lib/util/medusa-error"
 import { cookies } from "next/headers"
 
@@ -754,4 +754,18 @@ export const getProductsByCategoryHandle = cache(async function ({
     response,
     nextPage,
   }
+})
+
+export const getFavouriteSolutions = cache(async function (customer) {
+
+  return customClient.customResources
+    .listFavouriteSolutions(customer)
+    .then(( {favourite_solutions} ) => {
+      return favourite_solutions
+    })
+    .catch((err) => {
+      console.log("THIS IS TEH ERROR")
+      console.log(err)
+      return []
+    })
 })

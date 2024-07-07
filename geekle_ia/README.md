@@ -6,6 +6,7 @@ DATABASE_TYPE=postgres
 DATABASE_URL=postgres://postgres:postgres@localhost/medusa-G5-S
 DATABASE_NAME=medusa-G5-S
 DATABASE_USER=postgres
+MODELS_URL=http://localhost:5000
 DATABASE_PASSWORD=postgres
 MEDUSA_ADMIN_ONBOARDING_TYPE=nextjs
 STORE_CORS=http://localhost:8000,http://localhost:7001

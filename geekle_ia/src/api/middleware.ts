@@ -61,7 +61,7 @@ const registerLoggedInCustomer = async (
 export const config: MiddlewaresConfig = {
     routes: [
         {
-            matcher: "/store/favourite_solutions",
+            matcher: "/store/*",
             middlewares: [authenticate(), registerLoggedInCustomer, registerLoggedInUser],
         },
         {

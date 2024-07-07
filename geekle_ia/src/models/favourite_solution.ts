@@ -12,7 +12,7 @@ export class FavouriteSolution extends BaseEntity {
     @Column({ type: "varchar" })
     solution_id: string
 
-    @ManyToOne(() => Solution, (solution) => solution.favourite_solutions)
+    @ManyToOne(() => Solution, (solution) => solution.favourite_solutions, { eager: true })
     @JoinColumn({ name: "solution_id" })
     solution: Solution
 

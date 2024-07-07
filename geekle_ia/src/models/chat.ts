@@ -9,12 +9,12 @@ export class Chat extends BaseEntity {
     @Column({type: 'varchar'})
     customer_id: string | null;
 
-    @Column({type: 'timestamp'})
-    date: Date | null;
+    @Column({type: 'varchar'})
+    title: string | null;
 
-    @OneToMany(() => Message, (message) => message.chat)
+    @OneToMany(() => Message, (message) => message.chat, {eager: true})
     @JoinColumn({ name: "chat_id" })
-    message: Message[]
+    messages: Message[]
 
     @BeforeInsert()
     private beforeInsert(): void {

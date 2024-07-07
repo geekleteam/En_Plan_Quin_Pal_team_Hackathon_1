@@ -10,7 +10,7 @@ export const GET = async (
     const solutionRepo = manager.getRepository(Solution)
 
     return res.json({
-        posts: await solutionRepo.find(),
+        solutions: await solutionRepo.find(),
     })
 
 }

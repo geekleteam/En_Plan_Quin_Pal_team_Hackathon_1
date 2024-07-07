@@ -29,6 +29,14 @@ export class Post extends BaseEntity {
 
 You also need to create a Migration to create the new table in the database. See [How to Create Migrations](https://docs.medusajs.com/advanced/backend/migrations/) in the documentation.
 
+```
+npx typeorm migration:generate -d datasource.js src/migrations/MigrationName
+
+medusa migrations run
+
+npm build
+```
+
 ### 3. Create a Repository
 Entities data can be easily accessed and modified using [TypeORM Repositories](https://typeorm.io/working-with-repository). To create a repository, create a file in `src/repositories`. For example, here’s a repository `PostRepository` for the `Post` entity:
 
@@ -44,3 +52,30 @@ export class PostRepository extends Repository<Post> { }
 ```
 
 See more about defining and accesing your custom [Entities](https://docs.medusajs.com/advanced/backend/entities/overview) in the documentation.
+
+
+### 3. Routes
+Create folder in `/api/store`, eg. `/api/store/solutions`.
+Create a `route.ts` file inside.
+Example: 
+```
+import {MedusaRequest, MedusaResponse} from "@medusajs/medusa";
+import {EntityManager} from "typeorm";
+import { Solution } from "../../../models/solution"
+
+export const GET = async (
+    req: MedusaRequest,
+    res: MedusaResponse
+) => {
+    const manager: EntityManager = req.scope.resolve("manager")
+    const solutionRepo = manager.getRepository(Solution)
+
+    return res.json({
+        posts: await solutionRepo.find(),
+    })
+
+}
+```
+This creates a route at http://localhost:9000/store/solutions
+for the storefront
+(and also, it seems, at http://localhost:7001/a/solutions)

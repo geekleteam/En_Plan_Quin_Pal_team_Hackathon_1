@@ -8,6 +8,7 @@ export const GET = async (
 ) => {
 
     const { customer_id, chat_id } = req.params;
+
     const manager: EntityManager = req.scope.resolve("manager")
     const repo = manager.getRepository(Chat)
 

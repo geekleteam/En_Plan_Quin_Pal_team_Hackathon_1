@@ -11,11 +11,14 @@ class AiService:
         messages = [
             {"role": "system", "content": "You are an AI that checks if the prompt is appropriate. You are going to answer with a single word: yes or no."},
         ]
-
-        messages = messages.append({"role": "user", "content": user_prompt})
+        print("messages: ", messages)
+        messages.append({"role": "user", "content": user_prompt})
+        print("messages: ", messages)
         response = self.llm.generate_response(messages)
 
-        return response
-
+        if response[-1]['content'].strip().lower() == 'yes':
+            return True
+        else:
+            return False
 
 

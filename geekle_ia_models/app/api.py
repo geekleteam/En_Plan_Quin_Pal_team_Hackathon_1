@@ -1,23 +1,20 @@
 from geekle_ia_models.app.ai_service import AiService
-
+from flask import Flask, request
 
 def add_routes(app):
     app.add_url_rule('/example', view_func=example)
+    app.add_url_rule('/safe', view_func=safe)
 
 def example():
     return "ok"
 
-def appropiate_prompt(app):
-    app.add_url_rule('/safe', view_func=safe)
-
-
 def safe():
-    prompt = app.args.get('prompt')  # veure d'on treure aixo
+    prompt = request.args.get('prompt')  # Get the prompt from query parameters
 
     aiService = AiService()
-    aiService.promptIsAppropiate(prompt)
+    is_appropriate = aiService.promptIsAppropiate(prompt)
 
-    if aiService:
-        return "The prompt is appropiate"
+    if is_appropriate:
+        return "The prompt is appropriate"
     else:
-        return "The prompt is not appropiate"
+        return "The prompt is not appropriate"

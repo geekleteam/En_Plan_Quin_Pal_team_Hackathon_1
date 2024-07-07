@@ -31,7 +31,6 @@ class LocalLLM:
 # Example usage
 if __name__ == "__main__":
     model_path = "microsoft/Phi-3-mini-4k-instruct"
-
     tokenizer_path = "microsoft/Phi-3-mini-4k-instruct"
     llm = LocalLLM(model_path, tokenizer_path)
 

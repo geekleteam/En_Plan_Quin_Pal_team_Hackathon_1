@@ -15,7 +15,7 @@ export class Message extends BaseEntity {
     @Column({type: 'varchar'})
     role: string | null;
 
-    @ManyToOne(() => Chat, (chat) => chat.message)
+    @ManyToOne(() => Chat, (chat) => chat.messages)
     @JoinColumn({ name: "chat_id" })
     chat: Chat
 

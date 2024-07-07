@@ -8,7 +8,7 @@ export const POST = async (
     res: MedusaResponse
 ) => {
     const { customer_id, chat_id } = req.params;
-    const { role, content} = req.body;
+    const { role, content} = {role: null, content: null}
 
     const manager: EntityManager = req.scope.resolve("manager")
     const chatRepo = manager.getRepository(Chat)

@@ -30,11 +30,9 @@ class ChatService extends TransactionBaseService {
 
         const chat = await chatRepo.findOneBy({ id: chat_id } );
 
-        let response = await this.api.handlePrompt(chat)
+        let json = await this.api.handlePrompt(chat)
 
-        //const answer = messageRepo.create({ content: response, role: 'bot', chat_id: chat_id })
-        //await messageRepo.save(answer)
-        chat.json = response.data
+        chat.json = json
         await chatRepo.save(chat)
         return chat.json;
     }

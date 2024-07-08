@@ -7,6 +7,7 @@ def add_routes(app):
     app.add_url_rule('/example', view_func=example)
     app.add_url_rule('/safe', view_func=safe)
     app.add_url_rule('/magic', view_func=magic)
+    app.add_url_rule('/handleprompt', view_func=handleprompt, methods=['POST'])
 
 def example():
     return "ok"
@@ -25,3 +26,20 @@ def magic():
     json = ai_service.magic(prompt)
 
     return json
+
+
+def handleprompt():
+    # Get the JSON body from the POST request
+    request_data = request.get_json()
+
+    # Log the JSON body
+    print("Received JSON request: ", request_data)
+
+    # Assume the JSON contains a key 'prompt' for simplicity
+    messages = request_data
+
+    # Process the prompt with the AI service
+    response = ai_service.handleprompt(messages)
+
+    # Return the response as JSON
+    return response

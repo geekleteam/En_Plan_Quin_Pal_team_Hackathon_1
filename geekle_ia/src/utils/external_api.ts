@@ -15,6 +15,7 @@ class ExternalApi {
     }
 
     async handlePrompt(chat: Chat) {
+        return "{'this_is': 'a_json}"; // TODO: fake for now
         const endpoint = "/example_post"
         try {
             const response = await this.client.post(endpoint, chat.messages);

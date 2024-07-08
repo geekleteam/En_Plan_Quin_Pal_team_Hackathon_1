@@ -9,8 +9,8 @@ export class Chat extends BaseEntity {
     @Column({type: 'varchar'})
     customer_id: string | null;
 
-    @Column({type: 'varchar'})
-    title: string | null;
+    @Column({type: 'varchar', nullable: true})
+    title!: string | null;
 
     @Column({type: String, nullable: true})
     json!: string | null;

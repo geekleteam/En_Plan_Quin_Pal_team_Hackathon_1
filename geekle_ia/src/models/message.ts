@@ -3,7 +3,11 @@ import {generateEntityId} from "@medusajs/utils";
 import {BaseEntity} from "@medusajs/medusa";
 import {Chat} from "./chat";
 
-@Entity()
+@Entity({
+    orderBy: {
+        created_at: "DESC"
+    }
+})
 export class Message extends BaseEntity {
 
     @Column({type: 'varchar'})

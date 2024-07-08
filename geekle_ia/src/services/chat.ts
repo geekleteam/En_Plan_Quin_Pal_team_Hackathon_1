@@ -1,9 +1,5 @@
-import { BaseService } from "medusa-interfaces";
-import { EntityManager } from "typeorm";
-import {Customer, TransactionBaseService, User} from "@medusajs/medusa";
-import {Solution} from "../models/solution";
-import {FavouriteSolution} from "../models/favourite_solution";
-import {FavouriteSolutionRepository} from "../repositories/favourite_solution";
+import {EntityManager} from "typeorm";
+import {TransactionBaseService} from "@medusajs/medusa";
 import {Lifetime} from "awilix"
 import {Chat} from "../models/chat";
 import {Message} from "../models/message";
@@ -36,10 +32,11 @@ class ChatService extends TransactionBaseService {
 
         let response = await this.api.handlePrompt(chat)
 
-        const answer = messageRepo.create({ content: response, role: 'bot', chat_id: chat_id })
-        await messageRepo.save(answer)
-
-        return answer;
+        //const answer = messageRepo.create({ content: response, role: 'bot', chat_id: chat_id })
+        //await messageRepo.save(answer)
+        chat.json = response.data
+        await chatRepo.save(chat)
+        return chat.json;
     }
 }
 

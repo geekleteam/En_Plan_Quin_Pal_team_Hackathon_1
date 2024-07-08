@@ -12,6 +12,9 @@ export class Chat extends BaseEntity {
     @Column({type: 'varchar'})
     title: string | null;
 
+    @Column({type: 'jsonb'})
+    json: object | null;
+
     @OneToMany(() => Message, (message) => message.chat, {eager: true})
     @JoinColumn({ name: "chat_id" })
     messages: Message[]

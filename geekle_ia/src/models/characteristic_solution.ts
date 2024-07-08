@@ -16,7 +16,7 @@ export class CharacteristicSolution extends BaseEntity {
     @Column({ type: "varchar" })
     solution_id: string
 
-    @ManyToOne(() => Solution, (solution) => solution.characteristic_solution)
+    @ManyToOne(() => Solution, (solution) => solution.characteristic_solutions)
     @JoinColumn({ name: "solution_id" })
     solution: Solution
 

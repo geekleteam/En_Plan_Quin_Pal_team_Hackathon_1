@@ -25,6 +25,7 @@ export const POST = async (
 ) => {
 
     const { customer_id } = req.params;
+    //@ts-ignore
     const {title} = req.body;
 
     const manager: EntityManager = req.scope.resolve("manager")

@@ -1,26 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import './ChatBox.css';
 
+const CUSTOMERID = 'cus_01J27FYAKGMXNCSFM6JFH93X03'
+
+
 const ChatBox = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
 
+  const [chatId, setChatId] = useState('')
+
   // Fetch messages from backend when component mounts
   useEffect(() => {
-    fetchMessages();
+    initChat();
   }, []);
 
-  const fetchMessages = async () => {
+  const initChat = async () => {
     try {
-      // [TODO] Per determinar quin es el endpoint dels missatges
-      const response = await fetch('/messages');
-      if (!response.ok) {
-        throw new Error('Failed to fetch messages');
-      }
-      const data = await response.json();
-      setMessages(data.messages); 
+      // [TODO] Per determinar com recuperar customId per cada usuari
+      
+
+      const response = await fetch(`http://localhost:9000/store/customers/${CUSTOMERID}/chats/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: 'Chat initialized' }),
+      }).then(response => response.json())
+      .then(data => setChatId(data.chat.id));
+  
     } catch (error) {
-      console.error('Error fetching messages:', error);
+      console.error('Error initializing chat :', error);
     }
   };
 
@@ -28,16 +38,13 @@ const ChatBox = () => {
     if (input.trim()) {
       try {
         // [TODO] Per determinar quin es el endpoint dels missatges
-        const response = await fetch('/messages', {
+        const response = await fetch(`http://localhost:9000/store/customers/${CUSTOMERID}/chats/${chatId}/new_message`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ text: input, sender: 'user' }),
+          body: JSON.stringify({ content: input}),
         });
-        if (!response.ok) {
-          throw new Error('Failed to send message');
-        }
 
         const newMessage = await response.json();
         setMessages([...messages, newMessage]);

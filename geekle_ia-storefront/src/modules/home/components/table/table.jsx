@@ -1,66 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { medusaClient } from "@lib/config"
-
-
-const exampleJson = {
-  comparison_points: ['language', 'difficulty', 'other'],
-  filters: [],
-  solutions: [
-    { solution: 'medusa', characteristics: { language: 'js', other: 'html' } },
-    { solution: 'hercules', characteristics: { language: 'python', other: 'java', difficulty: 'easy' } },
-    { solution: 'zeus', characteristics: { language: 'go', other: 'java' } },
-  ],
-};
 
 const DataTable = () => {
-  const [jsonData, setJsonData] = useState(null);
+  const [jsonData, setJsonData] = useState({
+    comparison_points: ['language', 'difficulty', 'other'],
+    solutions: [],
+  });
 
-//   const fetch = async() =>{
-//     const category = await medusaClient.productCategories
-//       .list(
-//         {
-//           handle: '',
-//         },
-//         {
-//           next: {
-//             tags: ["categories"],
-//           },
-//         }
-//       )
-//       .then(({ product_categories: { [0]: category } }) => category)
-//       .catch((err) => {
-//         return {}
-//       })
-//     }
-    
-    useEffect(() =>{
-        // fetch()
-        setJsonData(exampleJson);
-    },[])
+  const initSolutions = async () => {
+    try {
+      const response = await fetch(`http://localhost:9000/store/solutions/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch solutions');
+      }
+      const data = await response.json();
+      const formattedSolutions = data.solutions.map(solution => ({
+        id: solution.id,
+        solution: solution.name,
+        created_at: solution.created_at,
+        updated_at: solution.updated_at,
+        details: solution.details
+      }));
 
+      setJsonData({
+        ...jsonData,
+        solutions: formattedSolutions,
+      });
 
+    } catch (error) {
+      console.error('Error initializing chat:', error);
+    }
+  };
 
-  const columns = jsonData?.comparison_points.map((point, index) => ({
-    field: point,
-    headerName: point,
-    width: 150,
-    editable: false,
-  })) || [];
+  useEffect(() => {
+    initSolutions();
+  }, []);
 
-  // Prepare rows based on solutions
-  const rows = jsonData?.solutions.map((solution, index) => {
-    const row = {
-      id: index + 1,
-      solution: solution.solution,
-    };
+  const columns = [
+    { field: 'solution', headerName: 'Solution', width: 150, editable: false },
+  
+    { field: 'created_at', headerName: 'Created At', width: 200, editable: false },
+    { field: 'updated_at', headerName: 'Updated At', width: 200, editable: false },
+    { field: 'details', headerName: 'Details', width: 250, editable: false },
+  ];
 
-    jsonData.comparison_points.forEach((point) => {
-      row[point] = solution.characteristics[point] || '';
-    });
-
-    return row;
-  }) || [];
+  const rows = jsonData.solutions;
 
   return (
     <div style={{ height: 500, width: '100%' }}>
@@ -69,7 +58,7 @@ const DataTable = () => {
         columns={columns}
         pageSize={5}
         checkboxSelection
-        slots={{ toolbar: GridToolbar }}
+        components={{ Toolbar: GridToolbar }}
       />
     </div>
   );

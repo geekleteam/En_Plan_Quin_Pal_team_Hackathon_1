@@ -51,7 +51,7 @@
     font-size: 14px;
   }
   
-  .chatbox-input button {
+  .chatbox-input button, .new-chat-button {
     margin-left: 8px;
     padding: 8px 16px;
     border: none;
@@ -72,6 +72,7 @@
   
   .chat-list {
     width: 40%;
+    min-width: 300px;
     border-right: 1px solid #ccc;
     background-color: antiquewhite;
     padding: 10px;
@@ -97,6 +98,7 @@
   
   .chatbox-container {
     width: 60%;
+    min-width: 350px;
     display: flex;
     flex-direction: column;
   }

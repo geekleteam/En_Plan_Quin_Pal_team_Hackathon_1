@@ -15,8 +15,6 @@ export const POST = async (
     const chatService = req.scope.resolve("chatService")
     const answer = await chatService.handlePrompt(customer_id, chat_id, content)
 
-    return res.json({
-        answer: answer
-    })
+    return res.json(answer)
 
 }

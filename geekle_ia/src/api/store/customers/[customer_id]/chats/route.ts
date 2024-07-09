@@ -13,7 +13,7 @@ export const GET = async (
     const repo = manager.getRepository(Chat)
 
     return res.json({
-        chats: await repo.findBy({customer_id: customer_id}),
+        chats: await repo.find({where: {customer_id: customer_id}, order: {created_at: 'DESC'}}),
     })
 
 }

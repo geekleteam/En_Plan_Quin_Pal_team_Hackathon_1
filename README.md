@@ -1,5 +1,24 @@
+# Phase_1-Team_3
+
+# Frontend and Backend
+We used the recommended technology in the GeekleAI hackaton.
+
+The AI backend is served with Flask. The AI backend handles the LLM model.
+
+The regular backend is handled with Medusa. The backend can handle users and their chats.
+
+The frontend is done with NextJS. The UI is a prototype with support for a chat and users.
+
 # The LLM model
 The LLM used is (`microsoft/Phi-3-mini-4k-instruct`), a resource efficient yet powerful model capable of directly generating the full output with all solutions and comparison points. That was achieved by carefully engineering the system's model prompt, which instructs about all the process to follow and points to consider generating the final comparison table in JSON format. 
+
+We are using open weights. The model uses 4B de parameters (4GB of storage), that is smaller than the smallest llama3 model (8B, 70B, 400B). 
+
+The phi model is way faster and easier to scale and uses way less VRAM. We are running in local so there is no paid API service reliance. All the infrastructure is hosted in local. 
+
+The "system" prompt works as a fine-tune of the model allowing it to be highly customizable. The code works with CPU and GPU albeit GPU being orders of magnitude faster. We have the model always up running to reduce start overhead. We 
+
+We used Python 3.10 due to some stability issues found in newer versions.
 
 ### How it is run?
 The model is run locally in the backend. A larger model like Llama3 may improve the result, but for prototyping a smaller model is preferable. The relevant implementation is found on the `ai_service.py` module. 
@@ -10,16 +29,5 @@ To ensure safety and security of using the LLM model, it itself does an assessme
 ### Limitations 
 Due to challenges related to make the recommended framework 'Medusa' work, limitations, we could not add more modularity and granularity we originally wanted. Ideally, we would do the steps on different calls of the LLM model, thus allow to have specialized small models for the easiest steps and larger and more expensive models for the complex steps.
 
-## How to install
-
-Create pip env and activate it:
-```
-python3 -m venv env
-source env/bin/activate
-```
-
-Install requirements:
-```
-pip install -r requirements.txt
-```
-
+# Demo
+The videos can be found on the [Issue#1](https://github.com/geekleteam/Phase_1-Team_3/issues/1)

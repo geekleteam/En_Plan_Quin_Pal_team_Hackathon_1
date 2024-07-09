@@ -31,6 +31,4 @@ To ensure safety and security of using the LLM model, it itself does an assessme
 Due to challenges related to make the recommended framework 'Medusa' work, limitations, we could not add more modularity and granularity we originally wanted. Ideally, we would do the steps on different calls of the LLM model, thus allow to have specialized small models for the easiest steps and larger and more expensive models for the complex steps.
 
 # Demo
-[Screencast from 09-07-24 12:42:55.webm](https://github.com/geekleteam/Phase_1-Team_3/assets/19463905/ee4f9ff4-7a38-4cb0-a52b-449605595946)
-
-More can be found on the [Issue#1](https://github.com/geekleteam/Phase_1-Team_3/issues/1)
+The videos can be found on the [Issue#1](https://github.com/geekleteam/Phase_1-Team_3/issues/1)

@@ -32,7 +32,7 @@ class ChatService extends TransactionBaseService {
 
         let json = await this.api.handlePrompt(chat)
 
-        chat.json = json
+        chat.json = JSON.stringify(json)
         await chatRepo.save(chat)
         return chat.json;
     }

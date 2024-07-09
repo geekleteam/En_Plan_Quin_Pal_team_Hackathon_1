@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './ChatBox.css';
+import Comparison from "@modules/home/components/table/comparison"
+import Layout from "@modules/home/components/hero/mainLayout"
 
-const CUSTOMERID = 'cus_01J27FYAKGMXNCSFM6JFH93X03'
+
+const CUSTOMERID = 'cus_01J24HEZ742P2G0BK7NMYAFNA9'
 
 
 const ChatBox = () => {
@@ -9,17 +12,34 @@ const ChatBox = () => {
   const [input, setInput] = useState('');
   const [table, setTable] = useState('');
 
-  const [chatId, setChatId] = useState('')
   const [chats, setChats] = useState([])
   const [selectedChat, setSelectedChat] = useState(null);
 
 
   // Fetch messages from backend when component mounts
   useEffect(() => {
-    initChat();
     getChats()
   }, []);
 
+  useEffect(() => {
+    if (!selectedChat) return;
+    if (selectedChat.messages) setMessages(selectedChat.messages
+      .sort((a,b) => (a.created_at > b.created_at) ? 1 : ((b.created_at > a.created_at) ? -1 : 0))
+      .map(message => message.content));
+    else setMessages([])
+    setTable(cleanJSONTable(selectedChat.json))
+  }, [selectedChat]);
+
+
+  const cleanJSONTable = (data) => {
+    try {
+      if (typeof data === 'string') data = JSON.parse(data.replaceAll("\n", ""))
+      if (!data || data.length === 0) return null;
+      return JSON.parse(data[data.length - 1].content.replaceAll('json', '').replaceAll("\n", "").replaceAll("```", ""))
+    } catch (e) {
+      return null;
+    }
+  }
 
   const initChat = async () => {
     try {
@@ -29,10 +49,13 @@ const ChatBox = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ content: 'Chat initialized' }),
+        body: JSON.stringify({ title: `Chat ${new Date().toLocaleString()}` }),
       }).then(response => response.json())
-      .then(data => setChatId(data.chat.id));
-  
+        .then(data => {
+          setChats([data.chat, ...chats]);
+          setSelectedChat(data.chat)
+        });
+
     } catch (error) {
       console.error('Error initializing chat :', error);
     }
@@ -48,31 +71,33 @@ const ChatBox = () => {
           'Content-Type': 'application/json',
         },
       }).then(response => response.json())
-      .then(data => setChats(data.chats));
-  
+        .then(data => setChats(data.chats));
+
     } catch (error) {
       console.error('Error initializing chat :', error);
     }
   };
 
-  console.log(chats,"haf")
+  console.log(chats, "haf")
 
   const handleSend = async () => {
     if (input.trim()) {
       try {
 
-        fetch(`http://localhost:9000/store/customers/${CUSTOMERID}/chats/${chatId}/new_message`, {
+        fetch(`http://localhost:9000/store/customers/${CUSTOMERID}/chats/${selectedChat.id}/new_message`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ content: input}),
+          body: JSON.stringify({ content: input }),
         })
           .then(function(response) {
             return response.json()
 
           }).then(function(data) {
-          setTable(JSON.parse(data.answer[data.answer.length -1].content.replaceAll('json', '').replaceAll("\n", "").replaceAll("```", "")));
+            selectedChat.json = data;
+            selectedChat.messages = [...selectedChat.messages ||[], {content: input}]
+            setTable(cleanJSONTable(data));
 
           console.log(data);
         });
@@ -85,27 +110,27 @@ const ChatBox = () => {
       }
     }
   };
-//dangerouslySetInnerHTML={{ __html: table }}
-  return (
-<div className="chatbox-wrapper">
+
+  let chatWrapper =
+    <div className="chatbox-wrapper">
       <div className="chat-list">
-        <h3>Llista de Xats</h3>
+        <h3>Chat list</h3>
+        <button className={'new-chat-button'} onClick={initChat} style={{margin: '20px'}}>New chat</button>
         {chats.map((chat) => (
           <div
             key={chat.id}
             onClick={() => {
               setSelectedChat(chat)
-              const messages = chat.messages.map(message => message.content)
-              setMessages([...messages])}}
-            className={`chat-item ${selectedChat?.id === chat.id ? 'active' : ''}`}
+            }}
+            className={`chat-item ${selectedChat?.id === chat.id ? "active" : ""}`}
           >
-            {chat.id}
+            {chat.title || chat.id}
           </div>
         ))}
       </div>
       <div className="chatbox-container">
         <div className="chatbox-header">
-          <h2>{selectedChat ? selectedChat.id : 'Selecciona un xat o inicia un nou'}</h2>
+          <h2>{selectedChat ? selectedChat.title || selectedChat.id : 'Selecciona un xat o inicia un nou'}</h2>
         </div>
         <div className="chatbox-messages">
           {messages.map((message, index) => (
@@ -119,25 +144,23 @@ const ChatBox = () => {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Escriu un missatge..."
+            placeholder="Write a message..."
+            disabled={selectedChat == null}
           />
-          <button onClick={handleSend}>Enviar</button>
+          <button disabled={selectedChat == null} onClick={handleSend}>Send</button>
         </div>
       </div>
+    </div>;
 
-  <div className="comparison-table" >
-    {table ?
-    <table>
-      <tr>
-        {Object.keys(table[0]).map(k => <th>{k}</th>)}
-      </tr>
-      {Object.values(table).map((v) => <tr>
-        {Object.values(v).map(c => <td style={{padding: "30px;"}}>{c}</td>)}
-      </tr>)}
-    </table> : ''}
+  let comparisonTable = <div className="comparison-table">
+    <Comparison table={table} />
+  </div>;
+
+  return <div style={{display: 'flex', width: '100%'}}>
+    <div style={{width:'50%', flexShrink:0}}>{chatWrapper}</div>
+    <div style={{width:'50%', flexShrink:0}}>{comparisonTable}</div>
   </div>
-</div>
-  );
+
 };
 
 export default ChatBox

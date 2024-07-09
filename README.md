@@ -32,3 +32,5 @@ Due to challenges related to make the recommended framework 'Medusa' work, limit
 
 # Demo
 [Screencast from 09-07-24 12:42:55.webm](https://github.com/geekleteam/Phase_1-Team_3/assets/19463905/ee4f9ff4-7a38-4cb0-a52b-449605595946)
+
+More can be found on the [Issue#1](https://github.com/geekleteam/Phase_1-Team_3/issues/1)

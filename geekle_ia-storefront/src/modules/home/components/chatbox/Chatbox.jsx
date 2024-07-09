@@ -60,14 +60,6 @@ const ChatBox = () => {
   const handleSend = async () => {
     if (input.trim()) {
       try {
-        // [TODO] Per determinar quin es el endpoint dels missatges
-        // const response = await fetch(`http://localhost:9000/store/customers/${CUSTOMERID}/chats/${chatId}/new_message`, {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify({ content: input}),
-        // });
 
         fetch(`http://localhost:9000/store/customers/${CUSTOMERID}/chats/${chatId}/new_message`, {
           method: 'POST',
@@ -77,15 +69,12 @@ const ChatBox = () => {
           body: JSON.stringify({ content: input}),
         })
           .then(function(response) {
-            // The response is a Response instance.
-            // You parse the data into a useable format using `.json()`
             return response.json()
 
           }).then(function(data) {
           setTable(JSON.parse(data.answer[data.answer.length -1].content.replaceAll('json', '').replaceAll("\n", "").replaceAll("```", "")));
 
-          // `data` is the parsed version of the JSON returned from the above endpoint.
-          console.log(data);  // { "userId": 1, "id": 1, "title": "...", "body": "..." }
+          console.log(data);
         });
 
         const newMessage = input

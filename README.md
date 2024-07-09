@@ -7,6 +7,4 @@
 
 Done!
 
-*please note.
-By submitting your code you refuse to claim any IP rights on it after the submission.
-You agree to help install it if needed.
+*Please note: By submitting your code, you waive any IP rights after submission. You also agree to assist with installation if needed.

@@ -7,6 +7,7 @@ const CUSTOMERID = 'cus_01J27FYAKGMXNCSFM6JFH93X03'
 const ChatBox = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [table, setTable] = useState('');
 
   const [chatId, setChatId] = useState('')
   const [chats, setChats] = useState([])
@@ -59,13 +60,21 @@ const ChatBox = () => {
   const handleSend = async () => {
     if (input.trim()) {
       try {
-        // [TODO] Per determinar quin es el endpoint dels missatges
-        const response = await fetch(`http://localhost:9000/store/customers/${CUSTOMERID}/chats/${chatId}/new_message`, {
+
+        fetch(`http://localhost:9000/store/customers/${CUSTOMERID}/chats/${chatId}/new_message`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ content: input}),
+        })
+          .then(function(response) {
+            return response.json()
+
+          }).then(function(data) {
+          setTable(JSON.parse(data.answer[data.answer.length -1].content.replaceAll('json', '').replaceAll("\n", "").replaceAll("```", "")));
+
+          console.log(data);
         });
 
         const newMessage = input
@@ -76,7 +85,7 @@ const ChatBox = () => {
       }
     }
   };
-
+//dangerouslySetInnerHTML={{ __html: table }}
   return (
 <div className="chatbox-wrapper">
       <div className="chat-list">
@@ -115,8 +124,20 @@ const ChatBox = () => {
           <button onClick={handleSend}>Enviar</button>
         </div>
       </div>
-    </div>
+
+  <div className="comparison-table" >
+    {table ?
+    <table>
+      <tr>
+        {Object.keys(table[0]).map(k => <th>{k}</th>)}
+      </tr>
+      {Object.values(table).map((v) => <tr>
+        {Object.values(v).map(c => <td style={{padding: "30px;"}}>{c}</td>)}
+      </tr>)}
+    </table> : ''}
+  </div>
+</div>
   );
 };
 
-export default ChatBox;
+export default ChatBox

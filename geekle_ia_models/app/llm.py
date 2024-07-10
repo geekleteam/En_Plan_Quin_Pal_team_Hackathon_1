@@ -1,7 +1,5 @@
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
-from llama_cpp import Llama
-
 
 class LocalLLM:
     _instance = None

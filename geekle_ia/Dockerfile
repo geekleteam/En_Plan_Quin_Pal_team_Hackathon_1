@@ -14,8 +14,12 @@ RUN apt-get install -y nodejs
 RUN mkdir /app
 
 COPY geekle_ia /app
-COPY geekle_ia-storefront /app
+COPY ../geekle_ia_storefront /app
 
 WORKDIR /app/geekle_ia
-RUN npm i
+RUN npm install @medusajs/medusa-cli -g
+RUN npm install
+RUN npm run build
+RUN medusa migrations run
 
+ENTRYPOINT npm dev

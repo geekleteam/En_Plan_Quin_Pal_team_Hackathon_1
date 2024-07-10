@@ -25,8 +25,10 @@ class LocalLLM:
         response = self.model.create_chat_completion(messages=messages)
         
         parsedText = response["choices"][0]["message"]["content"]
-                        
-        return parsedText
+
+        messages.append({"role": "assistant", "content": parsedText})
+
+        return messages
 
 # Example usage
 if __name__ == "__main__":

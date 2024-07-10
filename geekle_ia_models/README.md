@@ -21,5 +21,7 @@ source env/bin/activate
 Install requirements:
 ```
 pip install -r requirements.txt
+pip install -r requirements-torch.txt
+pip install -r requirements-llama.txt
 ```
 

@@ -1,4 +1,4 @@
-# Phase_1-Team_3
+# Phase_1-En Plan Quin Pal team
 
 1. add your PR
 2. add a link to the live demo

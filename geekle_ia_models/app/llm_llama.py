@@ -1,6 +1,9 @@
+import time
+
+import torch
 from llama_cpp import Llama
 
-class LocalLLM:
+class LlamaLLM:
     _instance = None
 
     def __init__(self, model_path, model_filename):
@@ -10,21 +13,26 @@ class LocalLLM:
             filename=model_filename,
             verbose=False,
             main_gpu=0, 
-            n_gpu_layers=2048
+            n_gpu_layers=2048,
+            n_ctx=4096,
         )
 
     @staticmethod
     def get_instance():
-        if LocalLLM._instance is None:
+        if LlamaLLM._instance is None:
             model_path = "bartowski/Phi-3.1-mini-4k-instruct-GGUF"
             model_filename = "Phi-3.1-mini-4k-instruct-Q8_0_L.gguf"
-            LocalLLM._instance = LocalLLM(model_path, model_filename)
-        return LocalLLM._instance
+            LlamaLLM._instance = LlamaLLM(model_path, model_filename)
+        return LlamaLLM._instance
 
-    def generate_response(self, messages, max_new_tokens=2048):
-        response = self.model.create_chat_completion(messages=messages)
-        
+    def generate_response(self, messages, max_new_tokens=4096):
+        start = time.time()
+        response = self.model.create_chat_completion(messages=messages, max_tokens=max_new_tokens)
+
         parsedText = response["choices"][0]["message"]["content"]
+        print("Time taken: ", time.time() - start)
+        print("tokens/sec: ", round(len(parsedText)/4.0 / (time.time() - start)),2)
+
 
         messages.append({"role": "assistant", "content": parsedText})
 
@@ -35,7 +43,7 @@ if __name__ == "__main__":
     model_path = "bartowski/Phi-3.1-mini-4k-instruct-GGUF"
     model_filename = "Phi-3.1-mini-4k-instruct-Q8_0_L.gguf"
     
-    llm = LocalLLM(model_path, model_filename)
+    llm = LlamaLLM(model_path, model_filename)
 
     messages = [
         {"role": "system", "content": "You are a helpful AI assistant"},

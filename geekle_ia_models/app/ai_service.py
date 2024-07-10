@@ -1,9 +1,9 @@
-from app.llm import LocalLLM
+from app.llm_llama import LlamaLLM
 
 
 class AiService:
     def __init__(self):
-        self.llm = LocalLLM.get_instance()
+        self.llm = LlamaLLM.get_instance()
         self.currentConversation = []
 
     def promptIsAppropiate(self, user_prompt):
@@ -45,6 +45,8 @@ class AiService:
 
         if len(self.currentConversation) == 0:
             self.currentConversation.append({"role": "system", "content": systemPrompt})
+
+        print("user_prompt:", user_prompt)
 
         messages = self.currentConversation
         messages.append({"role": "user", "content": user_prompt})

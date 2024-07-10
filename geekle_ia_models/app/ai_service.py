@@ -1,4 +1,4 @@
-from geekle_ia_models.app.llm import LocalLLM
+from app.llm import LocalLLM
 
 
 class AiService:

@@ -9,6 +9,9 @@ Done!
 
 *Please note: By submitting your code, you waive any IP rights after submission. You also agree to assist with installation if needed.
 
+# Demo
+The videos can be found on the [Issue#1](https://github.com/geekleteam/Phase_1-Team_3/issues/1)
+
 # Frontend and Backend
 We used the recommended technology in the GeekleAI hackaton.
 
@@ -30,5 +33,4 @@ To ensure safety and security of using the LLM model, it itself does an assessme
 ### Limitations 
 Due to challenges related to make the recommended framework 'Medusa' work, limitations, we could not add more modularity and granularity we originally wanted. Ideally, we would do the steps on different calls of the LLM model, thus allow to have specialized small models for the easiest steps and larger and more expensive models for the complex steps.
 
-# Demo
-The videos can be found on the [Issue#1](https://github.com/geekleteam/Phase_1-Team_3/issues/1)
+

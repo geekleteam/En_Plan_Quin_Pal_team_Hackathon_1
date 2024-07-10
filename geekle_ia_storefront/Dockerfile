@@ -1,5 +1,5 @@
-# docker build --network=host -t geekle-ai .
-# docker run -it --net="host" --env-file ./old.env -p 7001:7001 -p 9000:9000 geekle-ai
+# docker build -t geekle-ai-front .
+# docker run -it --env-file ./old.env -p 8000:8000 geekle-ai-front
 
 FROM ubuntu:22.04
 
@@ -17,12 +17,10 @@ WORKDIR /app
 
 COPY package.json /app
 #RUN npm install @medusajs/medusa-cli -g
-RUN npm install --verbose
-#RUN npm install ajv-keywords@5.1.0 --save
-RUN npm update
+RUN npm install
+
+
 COPY . /app
 
-RUN npm run build
-#RUN medusa migrations run
 
-ENTRYPOINT medusa migrations run;  npm run dev
+ENTRYPOINT npm run dev

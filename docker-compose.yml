@@ -3,16 +3,17 @@ services:
     container_name: postgres
     image: postgres
     environment:
-      POSTGRES_USER: ${DATABASE_USER}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      PGDATA: /data/postgres
-      POSTGRES_DB: medusa-G5-S
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - PGDATA=/data/postgres
+      - POSTGRES_DB=medusa-G5-S
+      - PGUSER=${DATABASE_USER}
     volumes:
-      - db:/data/postgres
+      - ./db:/data/postgres
+      - ./dumps/dumpfile.sql:/docker-entrypoint-initdb.d/init-user-db.sql:ro
+    command:
     ports:
-      - "5332:5432"
-    networks:
-      - db
+      - "5433:5432"
     restart: unless-stopped
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -d postgres" ]
@@ -21,3 +22,27 @@ services:
       retries: 5
   front:
     build: geekle_ia_storefront
+    ports:
+      - "8000:8000"
+    environment:
+      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://127.0.0.1:9000
+      - NEXT_PUBLIC_BASE_URL=http://127.0.0.1:8000
+    depends_on:
+      - backend
+  backend:
+    build: geekle_ia
+    ports:
+      - "9000:9000"
+      - "7001:7001"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@db:5432
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - STORE_CORS=http://front:8000,http://back:7001
+      - DATABASE_TYPE=postgres
+      - DATABASE_NAME=medusa-G5-S
+      - MEDUSA_ADMIN_ONBOARDING_TYPE=nextjs
+      - MEDUSA_ADMIN_ONBOARDING_NEXTJS_DIRECTORY=geekle_ia_storefront
+

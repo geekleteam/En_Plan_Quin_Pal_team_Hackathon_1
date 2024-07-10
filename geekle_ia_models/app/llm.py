@@ -1,14 +1,12 @@
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-
-
 class LocalLLM:
     _instance = None
 
     def __init__(self, model_path, tokenizer_path):
         # Load the tokenizer and model from the local paths
-        self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
+        self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_path, filename="Phi-3.1-mini-4k-instruct-Q8_0_L.gguf")
         self.model = AutoModelForCausalLM.from_pretrained(model_path)
 
     @staticmethod
@@ -46,8 +44,11 @@ class LocalLLM:
 
 # Example usage
 if __name__ == "__main__":
-    model_path = "microsoft/Phi-3-mini-4k-instruct"
-    tokenizer_path = "microsoft/Phi-3-mini-4k-instruct"
+    # model_path = "microsoft/Phi-3-mini-4k-instruct"
+    # tokenizer_path = "microsoft/Phi-3-mini-4k-instruct"
+    model_path = "bartowski/Phi-3.1-mini-4k-instruct-GGUF"
+    tokenizer_path = "bartowski/Phi-3.1-mini-4k-instruct-GGUF"
+    
     llm = LocalLLM(model_path, tokenizer_path)
 
     messages = [

@@ -1,4 +1,4 @@
-from geekle_ia_models.app.ai_service import AiService
+from app.ai_service import AiService
 from flask import Flask, request
 
 ai_service = AiService()  # Initialize the AiService once

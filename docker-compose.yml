@@ -21,16 +21,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-  front:
-    build: geekle_ia_storefront
-    ports:
-      - "8000:8000"
-    environment:
-      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://127.0.0.1:9000
-      - NEXT_PUBLIC_BASE_URL=http://127.0.0.1:8000
-    network_mode: host
-    depends_on:
-      - backend
   backend:
     build: geekle_ia
     ports:
@@ -48,3 +38,14 @@ services:
       - DATABASE_NAME=medusa-G5-S
       - MEDUSA_ADMIN_ONBOARDING_TYPE=nextjs
       - MEDUSA_ADMIN_ONBOARDING_NEXTJS_DIRECTORY=geekle_ia_storefront
+  front:
+    build: geekle_ia_storefront
+    ports:
+      - "8000:8000"
+    environment:
+      - NEXT_MEDUSA_BACKEND_URL=http://backend:9000
+      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://127.0.01:9000
+      - NEXT_PUBLIC_BASE_URL=http://127.0.0.1:8000
+    depends_on:
+      - backend
+

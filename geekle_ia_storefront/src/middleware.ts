@@ -1,8 +1,8 @@
-import { Region } from "@medusajs/medusa"
-import { notFound } from "next/navigation"
-import { NextRequest, NextResponse } from "next/server"
+import {Region} from "@medusajs/medusa"
+import {notFound} from "next/navigation"
+import {NextRequest, NextResponse} from "next/server"
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://127.0.0.1:9000"
+const BACKEND_URL = process.env.NEXT_MEDUSA_BACKEND_URL || "http://127.0.0.1:9000"
 const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
 
 const regionMapCache = {
@@ -11,16 +11,16 @@ const regionMapCache = {
 }
 
 async function getRegionMap() {
-  const { regionMap, regionMapUpdated } = regionMapCache
+  const {regionMap, regionMapUpdated} = regionMapCache
 
   if (
     !regionMap.keys().next().value ||
     regionMapUpdated < Date.now() - 3600 * 1000
   ) {
     console.log(BACKEND_URL)
-    try{
+    try {
       // Fetch regions from Medusa. We can't use the JS client here because middleware is running on Edge and the client needs a Node environment.
-      const {regions} = await fetch(`${BACKEND_URL}/store/regions`, {
+      const { regions } = await fetch(`${BACKEND_URL}/store/regions`, {
         next: {
           revalidate: 3600,
           tags: ["regions"],
@@ -28,20 +28,19 @@ async function getRegionMap() {
       }).then((res) => res.json())
 
 
-    if (!regions) {
-      notFound()
-    }
+      if (!regions) {
+        notFound()
+      }
 
-    // Create a map of country codes to regions.
-    regions.forEach((region: Region) => {
-      region.countries.forEach((c) => {
-        regionMapCache.regionMap.set(c.iso_2, region)
+      // Create a map of country codes to regions.
+      regions.forEach((region: Region) => {
+        region.countries.forEach((c) => {
+          regionMapCache.regionMap.set(c.iso_2, region)
+        })
       })
-    })
 
-    regionMapCache.regionMapUpdated = Date.now()
-    }
-    catch(e){
+      regionMapCache.regionMapUpdated = Date.now()
+    } catch (e) {
       console.log('FETCH ERROR')
       console.error(e);
     }
@@ -124,6 +123,7 @@ export async function middleware(request: NextRequest) {
 
   let response = NextResponse.redirect(redirectUrl, 307)
 
+
   // If no country code is set, we redirect to the relevant region.
   if (!urlHasCountryCode && countryCode) {
     redirectUrl = `${request.nextUrl.origin}/${countryCode}${redirectPath}${queryString}`
@@ -134,12 +134,12 @@ export async function middleware(request: NextRequest) {
   if (cartId && !checkoutStep) {
     redirectUrl = `${redirectUrl}&step=address`
     response = NextResponse.redirect(`${redirectUrl}`, 307)
-    response.cookies.set("_medusa_cart_id", cartId, { maxAge: 60 * 60 * 24 })
+    response.cookies.set("_medusa_cart_id", cartId, {maxAge: 60 * 60 * 24})
   }
 
   // Set a cookie to indicate that we're onboarding. This is used to show the onboarding flow.
   if (isOnboarding) {
-    response.cookies.set("_medusa_onboarding", "true", { maxAge: 60 * 60 * 24 })
+    response.cookies.set("_medusa_onboarding", "true", {maxAge: 60 * 60 * 24})
   }
 
   return response

@@ -2,7 +2,7 @@ import {Region} from "@medusajs/medusa"
 import {notFound} from "next/navigation"
 import {NextRequest, NextResponse} from "next/server"
 
-const BACKEND_URL = process.env.NEXT_MEDUSA_BACKEND_URL || "http://127.0.0.1:9000"
+const BACKEND_URL = process.env.MEDUSA_BACKEND_URL || "http://127.0.0.1:9000"
 const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
 
 const regionMapCache = {

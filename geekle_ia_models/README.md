@@ -26,6 +26,8 @@ pip install -r requirements-torch-gpu.txt
 ```
 llama-gpu is the recommended option
 
+# Dockerized LLM server
+
 A Dockerized version of the LLM server is provided.
 
 I found a strange error which required adding a musl soft link which is dependant of the architecture (x86_64 vs arm64)

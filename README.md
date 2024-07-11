@@ -33,7 +33,7 @@ Due to challenges related to make the recommended framework 'Medusa' work, limit
 The videos can be found on the [Issue#1](https://github.com/geekleteam/Phase_1-Team_3/issues/1)
 
 # Dockerized version:
-The full dockerization does not work yet. Installing and running the back and front is quite easy. And, if you comment out the front and backend services in the docker-compose file, you can use it ro run a postgress container so you don't need to install postgres.
+Installing and running the back and front is quite easy. And, if you comment out the front and backend services in the docker-compose file, you can use it ro run a postgress container so you don't need to install postgres.
 If you do so, you'll need to set the port in docker-compose db service to :
 ``` 
     ports:
@@ -54,6 +54,14 @@ npm run dev
 ```
 
 postgres should already be working when you do so
+
+However, if you only want to try it out, you can use docker-compose to run the whole thing:
+
+```
+docker compose build
+docker compose up
+```
+
 
 # Dockerized LLM server
 Refer to the README found in the [geekle_ia_models](https://github.com/raquelhortab/GeekleAI-EnPlanQuinPal-Phase1/tree/master/geekle_ia_models) folder.

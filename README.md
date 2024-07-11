@@ -54,3 +54,6 @@ npm run dev
 ```
 
 postgres should already be working when you do so
+
+# Dockerized LLM server
+Refer to the README found in the [geekle_ia_models](https://github.com/raquelhortab/GeekleAI-EnPlanQuinPal-Phase1/tree/master/geekle_ia_models) folder.

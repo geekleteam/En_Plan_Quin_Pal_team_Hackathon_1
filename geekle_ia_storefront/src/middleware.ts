@@ -2,7 +2,7 @@ import { Region } from "@medusajs/medusa"
 import { notFound } from "next/navigation"
 import { NextRequest, NextResponse } from "next/server"
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
+const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://127.0.0.1:9000"
 const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
 
 const regionMapCache = {
@@ -17,13 +17,16 @@ async function getRegionMap() {
     !regionMap.keys().next().value ||
     regionMapUpdated < Date.now() - 3600 * 1000
   ) {
-    // Fetch regions from Medusa. We can't use the JS client here because middleware is running on Edge and the client needs a Node environment.
-    const { regions } = await fetch(`${BACKEND_URL}/store/regions`, {
-      next: {
-        revalidate: 3600,
-        tags: ["regions"],
-      },
-    }).then((res) => res.json())
+    console.log(BACKEND_URL)
+    try{
+      // Fetch regions from Medusa. We can't use the JS client here because middleware is running on Edge and the client needs a Node environment.
+      const {regions} = await fetch(`${BACKEND_URL}/store/regions`, {
+        next: {
+          revalidate: 3600,
+          tags: ["regions"],
+        },
+      }).then((res) => res.json())
+
 
     if (!regions) {
       notFound()
@@ -37,6 +40,11 @@ async function getRegionMap() {
     })
 
     regionMapCache.regionMapUpdated = Date.now()
+    }
+    catch(e){
+      console.log('FETCH ERROR')
+      console.error(e);
+    }
   }
 
   return regionMapCache.regionMap

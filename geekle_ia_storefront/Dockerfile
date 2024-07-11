@@ -1,5 +1,5 @@
 # docker build -t geekle-ai-front .
-# docker run -it --env-file ./old.env -p 8000:8000 geekle-ai-front
+# docker run -it --env-file ./.env -p 8000:8000 geekle-ai-front
 
 FROM ubuntu:22.04
 

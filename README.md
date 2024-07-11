@@ -31,3 +31,26 @@ Due to challenges related to make the recommended framework 'Medusa' work, limit
 
 # Demo
 The videos can be found on the [Issue#1](https://github.com/geekleteam/Phase_1-Team_3/issues/1)
+
+# Dockerized version:
+The full dockerization does not work yet. Installing and running the back and front is quite easy. And, if you comment out the front and backend services in the docker-compose file, you can use it ro run a postgress container so you don't need to install postgres.
+If you do so, you'll need to set the port in docker-compose db service to :
+``` 
+    ports:
+      - "5432:5432"
+```
+You should be able to run the front by running (in the front directory)
+``` 
+npm i
+npm run dev
+```
+
+and the back (in the geekle_ia directtory:
+``` 
+npm i
+npm build
+medusa migrations run
+npm run dev
+```
+
+postgres should already be working when you do so

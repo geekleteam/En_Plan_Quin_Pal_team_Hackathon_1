@@ -48,5 +48,7 @@ Llama(
     ...
 )
 ```
-I plan to include the Dockerfile with GPU support later, although it is not required to run the AI Service (just a nice to have so that it runs faster)
+I plan to include the Dockerfile with GPU support later, although it is not required to run the AI Service (just a nice to have so that it runs faster). 
+
+My recommendation until then is to run it in local. Refer to my post here for more details [geekleteam/En_Plan_Quin_Pal_team_Hackathon_1/issues/3](https://github.com/geekleteam/En_Plan_Quin_Pal_team_Hackathon_1/issues/3)
 

@@ -18,7 +18,7 @@ const Comparison = ({table}) => {
       </Table.Header>
       <Table.Body className="border-t-0">
         {Object.values(table).map((row, i) =><Table.Row key={`row-${i}`} className="text-ui-fg-subtle txt-medium-plus">
-          {Object.values(row).map((cell, j) => <Table.Cell style={{minWidth: headers[j] === 'description' ? "200px" : "100px"}} key={`row${i}cell${j}`}>{cell}</Table.Cell>)}
+          {Object.values(row).map((cell, j) => <Table.Cell style={{minWidth: headers[j] === 'description' ? "200px" : "100px"}} key={`row${i}cell${j}`}>{typeof cell === 'object' ? JSON.stringify(cell) : cell.toString()}</Table.Cell>)}
         </Table.Row>)}
       </Table.Body>
     </Table>

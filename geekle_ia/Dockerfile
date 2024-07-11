@@ -30,4 +30,4 @@ COPY . .
 RUN npm run build
 #RUN medusa migrations run
 
-ENTRYPOINT medusa migrations run;  npm run dev
+ENTRYPOINT medusa migrations run; npm start

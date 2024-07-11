@@ -43,8 +43,8 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - NEXT_MEDUSA_BACKEND_URL=http://backend:9000
-      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://127.0.01:9000
+      - MEDUSA_BACKEND_URL=http://backend:9000
+      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://127.0.0.1:9000
       - NEXT_PUBLIC_BASE_URL=http://127.0.0.1:8000
     depends_on:
       - backend
